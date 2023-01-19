@@ -1,4 +1,4 @@
-name: 'build-test'
+name: 'Test'
 on: # rebuild any PRs and main branch changes
   pull_request:
   push:
@@ -11,14 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          npm install
-      - run: |
-          npm run all
-  test: # make sure the action works on a clean machine without building
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          milliseconds: 1000
+          node-version-file: .nvmrc
+      - run: |
+          yarn install
+      - run: |
+          yarn all
